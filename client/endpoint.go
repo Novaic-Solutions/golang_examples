@@ -5,10 +5,15 @@ import (
 	"net/http"
 	"bytes"
 	"time"
+	"io"
 )
 
 // type Endpoint interface {
 // 	SendRequest() *http.Response
+// }
+
+// type ApiResponseData interface {
+// 	Serialize(*http.Response) ([]byte, error)
 // }
 
 type ApiRequest struct {
@@ -17,8 +22,14 @@ type ApiRequest struct {
 	Body []byte
 	Username string
 	Password string
-
 }
+
+type ApiResponse struct {
+	Endpoint string
+	StatusCode int
+	Body []byte
+}
+
 
 // Create TLS Config
 func CreateTlsConfig() *tls.Config {
@@ -59,4 +70,22 @@ func SendRequest(apiRequest *ApiRequest) (*http.Response, error) {
 	}
 
 	return resp, nil
+}
+
+// Create ApiResponse from http.Response json
+func CreateApiResponse(resp *http.Response, endpoint string) (*ApiResponse, error) {
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	
+	if err != nil {
+		return nil, err
+	}
+
+	apiResponse := &ApiResponse{
+		Endpoint: endpoint,
+		StatusCode: resp.StatusCode,
+		Body: body,
+	}
+
+	return apiResponse, nil
 }
