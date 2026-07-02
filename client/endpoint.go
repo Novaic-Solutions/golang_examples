@@ -3,6 +3,7 @@ package client
 import (
 	"crypto/tls"
 	"net/http"
+	"fmt"
 	"bytes"
 	"time"
 	"io"
@@ -62,6 +63,10 @@ func SendRequest(apiRequest *ApiRequest) (*http.Response, error) {
 
 	req.Header.Set("Content-Type", "application/json")
 	req.SetBasicAuth(apiRequest.Username, apiRequest.Password)
+
+	fmt.Println("Sending request to:", apiRequest.Endpoint)
+	fmt.Println("Request method:", apiRequest.Method)
+	fmt.Println("Body: ", apiRequest.Body)
 
 	client := CreateHTTPClient(30)
 	resp, err := client.Do(req)
