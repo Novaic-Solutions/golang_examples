@@ -1,0 +1,38 @@
+api_key: "your_api_key_here"
+api_secret: "your_api_secret_here"
+base_url: "https://api.example.com"
+endpoints:
+  - uri: "/api/diagnostics/interface/search_arp/"
+    method: "POST"
+    response_type: "application/json"
+    params: ""
+    request_body: 
+      current: 1
+      rowCount: -1
+      resolve: "no"
+      sort:
+        intf_description: "asc"
+
+  - uri: "/api/diagnostics/interface/getInterfaceStatistics"
+    method: "GET"
+    response_type: "application/json"
+    params: ""
+    request_body: {}
+
+  - uri: "/api/diagnostics/firewall/query_pf_top"
+    method: "POST"
+    response_type: "application/json"
+    params: ""
+    request_body:
+      current: 1
+      rowCount: -1
+      sort: {}
+  
+  - uri: "/api/diagnostics/firewall/query_states"
+    method: "POST"
+    response_type: "application/json"
+    params: ""
+    request_body:
+      current: 1
+      rowCount: -1
+      sort: {}
